@@ -1,0 +1,13 @@
+services:
+  susucal:
+    build: .
+    image: susucal:local
+    container_name: susucal
+    env_file: .env
+    volumes:
+      - ./settings.yml:/config/settings.yml:ro
+      - susucal-state:/state
+    restart: unless-stopped
+
+volumes:
+  susucal-state:

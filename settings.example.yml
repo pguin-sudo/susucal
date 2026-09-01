@@ -1,0 +1,59 @@
+defaults:
+  semester_start: 2026-09-01
+  timezone: Asia/Yekaterinburg
+  horizon_days_past: 7
+  horizon_days_future: 120
+  on_vanished: delete            # delete | mark | keep
+  mark_prefix: "[отменено] "
+  mark_grace_days: 7
+
+users:
+  - name: user1
+    enabled: true
+
+    # общий аккаунт СУСУ (edu + online), univeris берёт креды отсюда
+    susu:
+      login: "ВПИШИ_ЛОГИН"
+      password: "ВПИШИ_ПАРОЛЬ"
+
+    univeris:
+      base_url: https://online.susu.ru/microgateway
+
+    moodle:
+      # https://edu.susu.ru/calendar/ -> Экспортировать -> «Получить URL-адрес календаря» (и там чуть его подправить), чтобы query параметры были такие же 
+      ics_url: "https://edu.susu.ru/calendar/export_execute.php?userid=XXXX&authtoken=YYYY&preset_what=all&preset_time=recentupcoming"
+
+    icloud:
+      apple_id: "icloud@email.sosal"      # тот же email, что и стоит от icloud
+      app_password: "xxxx-xxxx-xxxx-xxxx" # это app specific password из appleid https://account.apple.com/account/manage -> пароли приложений, ставите любое название и копируете пароль
+      calendars:
+        moodle: "Moodle"
+      univeris_calendars:          
+        "Лекции": "Лекции"
+        "Лабораторные занятия": "Лабы"
+        "Практические занятия и семинары": "Семинары"
+        "Внеучебные мероприятия": "Семинары"
+      colors:
+        "Лекции": "#1E6FD9"
+        "Лабы": "#2E9E4F"
+        "Семинары": "#E8730C"
+        "Moodle": "#8E44AD"
+
+    filters:
+      subjects:                   # полностью выкидывает пары из расаисания
+        mode: exclude             # off | include | exclude
+        names:
+          - "Физическая культура и спорт"
+          - "День военной подготовки"
+      subgroups:                  # для разбитой пары оставить один вариант. можно по аудитории, можно по преподу
+        "Иностранный язык":
+          # instructor: "Фамилия препода"
+          location: "333/3"
+      split_without_rule: keep_all
+      event_types: []
+      exclude_slots:
+        - weekday: fri
+          pair: 2
+      weekday_whitelist:          # в этот день оставить только эти дисциплины
+        sat:
+          - "Основы программирования на языке Python"
