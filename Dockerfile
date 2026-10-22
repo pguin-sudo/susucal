@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.14-slim
 
 ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
@@ -9,6 +9,7 @@ WORKDIR /app
 
 COPY pyproject.toml README.md ./
 COPY src ./src
+ENV PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install --no-cache-dir . && \
     useradd --uid 10001 --no-create-home --shell /usr/sbin/nologin susucal && \
     mkdir -p /config /state && chown -R susucal /state
